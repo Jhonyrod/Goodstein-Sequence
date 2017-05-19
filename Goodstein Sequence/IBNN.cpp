@@ -11,7 +11,7 @@ void IBNN::change_base(bool arg = false)
 		i.second.change_base(arg);
 }
 
-IBNN::IBNN(const mpz_class& num, const mpz_class& base = 2)
+IBNN::IBNN(const mpz_class& num, const mpz_class& base)
 {
 	this->base = base;
 
@@ -25,26 +25,26 @@ IBNN::~IBNN()
 	ibnn.clear();
 }
 
-std::unique_ptr<const mpz_class>	IBNN::to_mpz_class()	const
+mpz_class IBNN::to_mpz_class() const
 {
+	mpz_class ret{ 0 };
 	if (ibnn.empty())
-		return std::make_unique<const mpz_class>(0);
+		return ret;
 
-	auto ret{ std::make_unique<mpz_class>(0) };
 	for (const auto& i : ibnn)
 	{
 		mpz_class j{ 1 };
-		for (mpz_class k{ 0 }; k < *i.second.to_mpz_class(); ++k)
+		for (mpz_class k{ 0 }; k < i.second.to_mpz_class(); ++k)
 			j *= base;
-		*ret += i.first*j;
+		ret += i.first*j;
 	}
 	return ret;
 }
 
-std::unique_ptr<const IBNN>			IBNN::next()
+IBNN IBNN::next()
 {
 	change_base();
-	auto ret{ std::make_unique<IBNN>(*to_mpz_class() - 1, base) };
+	IBNN ret{ to_mpz_class() - 1, base };
 	change_base(true);
 	return ret;
 }
