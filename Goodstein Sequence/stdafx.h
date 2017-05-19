@@ -7,9 +7,9 @@
 
 #include "targetver.h"
 
-#include <stdio.h>
-#include <tchar.h>
-
-
+#include <mpirxx.h>
+#include <iostream>
+#include <vector>
+#include <memory>
 
 // TODO: reference additional headers your program requires here
