@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "IBNN.hpp"
-#include "PowWrap.hpp"
 
 void IBNN::change_base(bool arg = false)
 {
@@ -29,11 +28,16 @@ IBNN::~IBNN()
 std::unique_ptr<const mpz_class>	IBNN::to_mpz_class()	const
 {
 	if (ibnn.empty())
-		return std::make_unique<const mpz_class>(1);
+		return std::make_unique<const mpz_class>(0);
 
 	auto ret{ std::make_unique<mpz_class>(0) };
 	for (const auto& i : ibnn)
-		*ret += i.first**mpz_pow(base, *i.second.to_mpz_class());
+	{
+		mpz_class j{ 1 };
+		for (mpz_class k{ 0 }; k < *i.second.to_mpz_class(); ++k)
+			j *= base;
+		*ret += i.first*j;
+	}
 	return ret;
 }
 

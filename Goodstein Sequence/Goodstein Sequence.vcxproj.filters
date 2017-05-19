@@ -27,9 +27,6 @@
     <ClInclude Include="IBNN.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PowWrap.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GS.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -42,9 +39,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="IBNN.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PowWrap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GS.cpp">
