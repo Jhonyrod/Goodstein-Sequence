@@ -9,6 +9,7 @@
 
 #include <mpirxx.h>
 #include <iostream>
+#include <sstream>
 #include <vector>
 #include <memory>
 
