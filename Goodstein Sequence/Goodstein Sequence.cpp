@@ -22,25 +22,20 @@ int main(int argc, char* argv[])
 	sa >> arg;
 
 	if (!sa)
-	{
 		usage(argv);
-		return 0;
-	}
 
-	if (argc == 3)
+	else if (argc == 3)
 	{
 		std::stringstream si{ std::string{ argv[2] } };
 		si << std::string{ argv[2] };
 		uint64_t iter;
 		si >> iter;
-		if (!si)
-		{
-			usage(argv);
-			return 0;
-		}
 		decltype(iter) i = 0;
-		for (IBNN ibnn{ arg }; ibnn.to_mpz_class() > 0 && i < iter; ++i, ibnn = ibnn.next())
-			std::cout << ibnn.to_mpz_class() << '\n';
+		if (!si)
+			usage(argv);
+		else
+			for (IBNN ibnn{ arg }; ibnn.to_mpz_class() > 0 && i < iter; ++i, ibnn = ibnn.next())
+				std::cout << ibnn.to_mpz_class() << '\n';
 	}
 	else if (argc == 2)
 		for (IBNN ibnn{ arg }; ibnn.to_mpz_class() > 0; ibnn = ibnn.next())
