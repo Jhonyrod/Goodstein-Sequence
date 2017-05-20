@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "IBNN.hpp"
 
-void IBNN::change_base(bool arg = false)
+void IBNN::change_base(bool arg)
 {
 	if (!arg)
 		++base;
@@ -9,6 +9,22 @@ void IBNN::change_base(bool arg = false)
 		--base;
 	for (auto& i : ibnn)
 		i.second.change_base(arg);
+}
+
+std::string IBNN::to_LaTeX_pre() const
+{
+	std::ostringstream tmp;
+	if (!ibnn.empty())
+	{
+		for (const auto& i : ibnn)
+		{
+			if (i.first > 1)
+				tmp << i.first << "\\cdot";
+			tmp << base << "^{" << i.second.to_LaTeX() << "}+";
+		}
+		tmp << '\b';
+	}
+	return tmp.str();
 }
 
 IBNN::IBNN(const mpz_class& num, const mpz_class& base)
@@ -28,23 +44,39 @@ IBNN::~IBNN()
 mpz_class IBNN::to_mpz_class() const
 {
 	mpz_class ret{ 0 };
-	if (ibnn.empty())
-		return ret;
-
-	for (const auto& i : ibnn)
-	{
-		mpz_class j{ 1 };
-		for (mpz_class k{ 0 }; k < i.second.to_mpz_class(); ++k)
-			j *= base;
-		ret += i.first*j;
-	}
+	if (!ibnn.empty())
+		for (const auto& i : ibnn)										//Iterate throught ibnn.
+		{
+			mpz_class j{ 1 };
+			for (mpz_class k{ 0 }; k < i.second.to_mpz_class(); ++k)	//Simple exponentiation routine.
+				j *= base;
+			ret += i.first*j;
+		}
 	return ret;
 }
 
 IBNN IBNN::next()
 {
 	change_base();
-	IBNN ret{ to_mpz_class() - 1, base };
+	IBNN ret{ to_mpz_class() - 1, base };								//Constructs new IBNN. Easier to implement than processing an IBNN natively.
 	change_base(true);
+	return ret;															//Returning by value might be more computationaly expensive, but compiler optimizations should alleviate that.
+}
+
+std::string IBNN::to_LaTeX() const										//Cleanup.
+{
+	static const std::regex	rega{ "[0-9]+\\^\\{\\}" },
+							regb{ "\\\\cdot1" },
+							regc{ "\\^\\{1\\}" };
+
+	auto ret
+	{
+		std::regex_replace(
+			std::regex_replace(
+				std::regex_replace(to_LaTeX_pre(), rega, "1"),
+			regb, ""),
+		regc, "")
+	};
+	//ret.pop_back();
 	return ret;
 }
