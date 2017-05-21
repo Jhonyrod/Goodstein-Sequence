@@ -34,10 +34,10 @@ int main(int argc, char* argv[])
 			usage(argv);
 		else
 			for (IBNN ibnn{ arg }; ibnn.to_mpz_class() > 0 && i < iter; ++i, ibnn = ibnn.next())
-				std::cout << ibnn.to_mpz_class() << " = " << ibnn.to_LaTeX() << '\n';
+				std::cout << ibnn.to_LaTeX() << '\n';
 	}
 	else
 		for (IBNN ibnn{ arg }; ibnn.to_mpz_class() > 0; ibnn = ibnn.next())
-			std::cout << ibnn.to_mpz_class() << " = " << ibnn.to_LaTeX() << '\n';
+			std::cout << ibnn.to_LaTeX() << '\n';
     return 0;
 }

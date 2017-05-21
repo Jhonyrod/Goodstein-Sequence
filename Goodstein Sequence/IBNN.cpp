@@ -15,15 +15,12 @@ std::string IBNN::to_LaTeX_pre() const
 {
 	std::ostringstream tmp;
 	if (!ibnn.empty())
-	{
 		for (const auto& i : ibnn)
 		{
 			if (i.first > 1)
 				tmp << i.first << "\\cdot";
 			tmp << base << "^{" << i.second.to_LaTeX() << "}+";
 		}
-		tmp << '\b';
-	}
 	return tmp.str();
 }
 
@@ -66,17 +63,15 @@ IBNN IBNN::next()
 std::string IBNN::to_LaTeX() const										//Cleanup.
 {
 	static const std::regex	rega{ "[0-9]+\\^\\{\\}" },
-							regb{ "\\\\cdot1" },
-							regc{ "\\^\\{1\\}" };
+							regb{ "\\+\\}" },
+							regc{ "\\\\cdot1\\+" },
+							regd{ "\\^\\{1\\}" };
 
-	auto ret
-	{
+	auto ret{
 		std::regex_replace(
 			std::regex_replace(
-				std::regex_replace(to_LaTeX_pre(), rega, "1"),
-			regb, ""),
-		regc, "")
-	};
+				std::regex_replace(
+					std::regex_replace(to_LaTeX_pre(), rega, "1"), regb, "}"), regc, "+"), regd, "") };
 	//ret.pop_back();
 	return ret;
 }
