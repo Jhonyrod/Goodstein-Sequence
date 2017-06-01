@@ -41,7 +41,7 @@ mpz_class IBNN::to_mpz_class() const
 {
 	mpz_class ret{ 0 };
 	if (!ibnn.empty())
-		for (const auto& i : ibnn)										//Iterate throught ibnn.
+		for (const auto& i : ibnn)										//Iterate throughout ibnn.
 		{
 			mpz_class j{ 1 };
 			for (mpz_class k{ 0 }; k < i.second.to_mpz_class(); ++k)	//Simple exponentiation routine.
@@ -56,7 +56,7 @@ IBNN IBNN::next()
 	change_base();
 	auto ret{ IBNN{ to_mpz_class() - 1, base } };						//Constructs new IBNN. Easier to implement than processing an IBNN natively.
 	change_base(true);
-	return ret;															//Returning by value might be more computationaly expensive, but compiler optimizations should alleviate that.
+	return ret;															//Returning by value might be more computationally expensive, but compiler optimizations should alleviate that.
 }
 
 std::string IBNN::to_LaTeX() const										//Cleanup.

@@ -6,7 +6,7 @@
 
 void usage(char* argv[])
 {
-	std::cout << "Usage: " << argv[0] << " [-h|--help] seed(<65536) [iterations]\n";
+	std::cout << "Usage:\n\n" << std::regex_replace(argv[0], std::regex(".+[\\\\|\\/]"), "") << " [-h|--help] seed(<65536) [iterations]\n";
 }
 
 int main(int argc, char* argv[])
@@ -39,5 +39,5 @@ int main(int argc, char* argv[])
 	else
 		for (IBNN ibnn{ arg }; ibnn.to_mpz_class() > 0; ibnn = ibnn.next())
 			std::cout << ibnn.to_LaTeX() << '\n';
-    return 0;
+	return 0;
 }
