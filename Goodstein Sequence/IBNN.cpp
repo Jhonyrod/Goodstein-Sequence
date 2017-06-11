@@ -41,7 +41,7 @@ mpz_class IBNN::to_mpz_class() const
 {
 	mpz_class ret{ 0 };
 	if (!ibnn.empty())
-		for (const auto& i : ibnn)										//Iterate throughout ibnn.
+		for (const auto& i : ibnn)
 		{
 			mpz_class j{ 1 };
 			for (mpz_class k{ 0 }; k < i.second.to_mpz_class(); ++k)	//Simple exponentiation routine.
@@ -59,7 +59,7 @@ IBNN IBNN::next()
 	return ret;															//Returning by value might be more computationally expensive, but compiler optimizations should alleviate that.
 }
 
-std::string IBNN::to_LaTeX() const										//Cleanup.
+std::string IBNN::to_LaTeX() const										//Cleanup of to_LaTeX_pre()'s return, to_LaTeX_pre() is a recursive function so it cannot include this piece of code.
 {
 	static const std::regex	rea{ "\\d+\\^\\{\\}" },
 							reb{ "\\+\\}" },
